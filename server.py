@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # Path to save data on your desktop
 DESKTOP_PATH = os.path.join(os.path.expanduser('~'), 'Desktop')
-DATA_FILE = os.path.join(DESKTOP_PATH, 'colloge_data.txt')
+DATA_FILE = os.path.join(DESKTOP_PATH, 'student_data.txt')
 
 @app.route('/submit', methods=['POST'])
 def handle_form():
@@ -23,7 +23,7 @@ def handle_form():
 
         # Save to desktop file
         with open(DATA_FILE, 'a') as f:
-            f.write(f"{college_data}\n")
+            f.write(f"{student_data}\n")
 
         return jsonify({
             'status': 'success',
