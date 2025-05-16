@@ -227,6 +227,8 @@
                 
                 // Create image element
                 const img = new Image();
+                img.crossOrigin = "Anonymous";
+                img.src = `https://cors-anywhere.herokuapp.com/http://teleuniv.in/sanjaya/student-images/${rollNumber}${extension}`;
                 
                 // Set up event handlers
                 img.onload = function() {
