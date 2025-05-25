@@ -9,11 +9,12 @@ const path = require('path');
 // Initialize Express app
 const app = express();
 
-// Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// Middleware - MUST come first
+app.use(express.json()); // For JSON bodies
+app.use(express.urlencoded({ extended: true })); // For form submissions
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://register360.github.io/kmit/college.html'] // Update with your frontend URLs
+  origin: ['http://localhost:3000', 'https://register360.github.io'],
+  methods: ['GET', 'POST']
 }));
 
 // Serve static files (if frontend is in same project)
@@ -75,8 +76,10 @@ const Student = mongoose.model('Student', studentSchema);
 
 // Routes
 app.post('/submit', async (req, res) => {
+   console.log("Raw request body:", req.body); // Add this line
   try {
     const { name, number, rollno, password, branch } = req.body;
+    console.log("Parsed fields:", {name, number, rollno, password, branch});
 
     // Validation
     if (!name || !number || !rollno || !password || !branch) {
