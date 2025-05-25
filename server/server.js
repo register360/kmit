@@ -13,8 +13,8 @@ const app = express();
 app.use(express.json()); // For JSON bodies
 app.use(express.urlencoded({ extended: true })); // For form submissions
 app.use(cors({
-  origin: '*', // Allow all origins temporarily
-  methods: ['POST', 'GET']
+origin: ['http://localhost:3000', 'https://register360.github.io'],
+  methods: ['GET', 'POST']
 }));
 
 // Serve static files (if frontend is in same project)
