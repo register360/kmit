@@ -121,3 +121,17 @@ font-size:15px;
     font-size: 16px !important;
   }
 }
+/* Loading spinner */
+.spinner-border {
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+/* Alerts styling */
+.alert {
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+.alert-dismissible .btn-close {
+    padding: 0.5rem 0.5rem;
+}
