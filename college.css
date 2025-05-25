@@ -121,12 +121,6 @@ font-size:15px;
     font-size: 16px !important;
   }
 }
-/* Loading spinner */
-.spinner-border {
-    vertical-align: middle;
-    margin-right: 8px;
-}
-
 /* Alerts styling */
 .alert {
     margin-top: 20px;
@@ -134,4 +128,32 @@ font-size:15px;
 }
 .alert-dismissible .btn-close {
     padding: 0.5rem 0.5rem;
+}
+/* Add to college.css */
+#form-message {
+    margin: 15px 0;
+    min-height: 50px;
+}
+
+.alert {
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.glyphicon-eye-close::before {
+    content: "👁️";
+}
+.glyphicon-eye-open::before {
+    content: "👁️";
 }
