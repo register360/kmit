@@ -67,10 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!/^[a-zA-Z0-9]+$/.test(formData.rollno)) {
                 throw new Error('Roll number should be alphanumeric');
             }
-            if (formData.password !== "Kmit123$") {
-                throw new Error('Invalid Password');
-            }
-
+            
             // Send to server
             const response = await fetch(form.action, {
                 method: 'POST',
