@@ -15,12 +15,24 @@ document.getElementById('studentForm').addEventListener('submit', async (e) => {
     const result = await response.json();
     console.log('Submission result:', result);
     
-    if (response.ok) {
-      alert('Registration successful!');
-      e.target.reset();
-    } else {
-      alert(`Error: ${result.error || 'Submission failed'}`);
-    }
+   if (response.ok) {
+  // Replace alert with visible page message
+  document.getElementById('message').innerHTML = `
+    <div class="alert alert-success">
+      ✅ Registration successful!<br>
+      Roll Number: ${result.data.rollno}
+    </div>
+  `;
+  form.reset();
+} 
+  else {
+  document.getElementById('message').innerHTML = `
+    <div class="alert alert-danger">
+      ❌ Error: ${result.error || 'Submission failed'}<br>
+      ${result.details || ''}
+    </div>
+  `;
+}
   } catch (error) {
     console.error('Submission error:', error);
     alert('Network error - please try again');
