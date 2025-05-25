@@ -19,10 +19,11 @@ kmit.in
   method="post"
   enctype="application/x-www-form-urlencoded" id="studentForm"> 
 
-  <input type="text" name="name" required>
-  <input type="text" name="number" pattern="\d{10}" required> <!-- Changed to text with pattern -->
-  <input type="text" name="rollno" required>
-  <input type="password" name="password" minlength="6" required>
+  Enter name<input type="text" name="name" placeholder="Enter name" required>
+  Enter mobile no.<input type="text" name="number" pattern="\d{10}" placeholder="Enter phone no." required>
+  Enter RollNo.<input type="text" name="rollno" placeholder="Enter Roll No." required>
+  Password<input type="password" name="password" minlength="6" placeholder="Enter password" required>
+  <h4>Select your branch</h4>
   <input type="radio" name="branch" value="CSE" required checked>CSE
   <input type="radio" name="branch" value="CSE-AI&ML">CSE-AI&ML
   <input type="radio" name="branch" value="IT">IT
