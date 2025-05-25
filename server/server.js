@@ -13,7 +13,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://your-github-username.github.io'] // Update with your frontend URLs
+  origin: ['http://localhost:3000', 'https://register360.github.io/kmit/college.html'] // Update with your frontend URLs
 }));
 
 // Serve static files (if frontend is in same project)
@@ -144,5 +144,4 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`🔗 MongoDB: ${mongoose.connection.host}/${mongoose.connection.name}`);
-});
+  console.log(`🔗 MongoDB: ${mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'}`);
