@@ -1,151 +1,166 @@
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const bcrypt = require('bcryptjs');
-const path = require('path');
+document.addEventListener('DOMContentLoaded', function() {
+    // Get form elements
+    const form = document.getElementById('Form');
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.querySelector('.glyphicon-eye-open');
+    const messageDiv = document.createElement('div');
+    messageDiv.id = 'message';
+    messageDiv.className = 'message-container';
+    form.parentNode.insertBefore(messageDiv, form.nextSibling);
 
-// Initialize Express app
-const app = express();
-
-// Middleware - MUST come first
-app.use(express.json()); // For JSON bodies
-app.use(express.urlencoded({ extended: true })); // For form submissions
-app.use(cors({
-origin: ['http://localhost:3000', 'https://register360.github.io'],
-  methods: ['GET', 'POST']
-}));
-
-// Serve static files (if frontend is in same project)
-app.use(express.static(path.join(__dirname, '../public')));
-
-// MongoDB Connection
-const DB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/kmit_portal";
-
-mongoose.connect(DB_URI)
-  .then(() => console.log('✅ MongoDB connected successfully'))
-  .catch(err => {
-    console.error('❌ MongoDB connection error:', err);
-    process.exit(1);
-  });
-
-// Student Schema
-const studentSchema = new mongoose.Schema({
-  name: { type: String, required: true, trim: true },
-  mobile: { 
-    type: String, 
-    required: true,
-    validate: {
-      validator: function(v) {
-        return /^\d{10}$/.test(v);
-      },
-      message: props => `${props.value} is not a valid phone number!`
-    }
-  },
-  rollno: { 
-    type: String, 
-    required: true, 
-    unique: true,
-    uppercase: true,
-    trim: true,
-    maxlength: 10
-  },
-  password: { type: String, required: true, minlength: 6 },
-  branch: { 
-    type: String, 
-    required: true,
-    enum: ['CSE', 'CSE-AI&ML', 'IT']
-  },
-  createdAt: { type: Date, default: Date.now }
-});
-
-// Password hashing middleware
-studentSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
-  try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (err) {
-    next(err);
-  }
-});
-
-const Student = mongoose.model('Student', studentSchema);
-
-// Routes
-app.post('/submit', async (req, res) => {
-   console.log("Raw request body:", req.body); // Add this line
-  try {
-    const { name, number, rollno, password, branch } = req.body;
-    console.log("Parsed fields:", {name, number, rollno, password, branch});
-
-    // Validation
-    if (!name || !number || !rollno || !password || !branch) {
-      return res.status(400).json({ error: 'All fields are required' });
+    // Remove duplicate DOMContentLoaded listener
+    // Device detection and layout adjustment
+    function detectDevice() {
+        const userAgent = navigator.userAgent;
+        const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+        const isTablet = /iPad|Android|Tablet/i.test(userAgent) && !isMobile;
+        
+        return isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop';
     }
 
-    // Check if student exists
-    const existingStudent = await Student.findOne({ rollno });
-    if (existingStudent) {
-      return res.status(400).json({ error: 'Student with this RollNo already exists' });
+    function adjustLayout() {
+        const device = detectDevice();
+        const container = document.querySelector('.login-container');
+
+        // Device-specific adjustments
+        const styles = {
+            mobile: {
+                fontSize: '14px',
+                width: '90%',
+                padding: '10px',
+                inputPadding: '8px',
+                buttonPadding: '8px 16px'
+            },
+            tablet: {
+                fontSize: '16px',
+                width: '70%',
+                padding: '20px',
+                inputPadding: '10px',
+                buttonPadding: '10px 20px'
+            },
+            desktop: {
+                fontSize: '18px',
+                width: '50%',
+                padding: '30px',
+                inputPadding: '10px',
+                buttonPadding: '10px 20px'
+            }
+        };
+
+        const current = styles[device];
+        
+        document.body.style.fontSize = current.fontSize;
+        form.style.width = current.width;
+        container.style.padding = current.padding;
+
+        // Adjust elements
+        document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(heading => {
+            heading.style.textAlign = device === 'mobile' ? 'center' : 'left';
+        });
+
+        document.querySelectorAll('input').forEach(input => {
+            input.style.padding = current.inputPadding;
+            input.style.fontSize = current.fontSize;
+        });
+
+        document.querySelectorAll('button').forEach(button => {
+            button.style.padding = current.buttonPadding;
+            button.style.fontSize = current.fontSize;
+        });
     }
 
-    // Create new student
-    const newStudent = new Student({
-      name,
-      mobile: number,
-      rollno: rollno.toUpperCase(),
-      password,
-      branch
-    });
+    // Initial adjustment
+    adjustLayout();
+    window.addEventListener('resize', adjustLayout);
 
-    await newStudent.save();
+    // Toggle password visibility
+    if (eyeIcon) {
+        eyeIcon.addEventListener('click', function() {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            this.classList.toggle('glyphicon-eye-open', !isPassword);
+            this.classList.toggle('glyphicon-eye-close', isPassword);
+        });
+    }
     
-    // Remove password from response
-    const studentData = newStudent.toObject();
-    delete studentData.password;
+    // Enhanced form submission handler
+    if (form) {
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
+            submitBtn.disabled = true;
 
-    res.status(201).json({ 
-      success: true,
-      message: 'Student registered successfully',
-      data: studentData
-    });
+            try {
+                // Get form values
+                const formData = {
+                    name: document.getElementById('name').value.trim(),
+                    number: document.getElementById('number').value.trim(),
+                    rollno: document.getElementById('rollno').value.trim().toUpperCase(),
+                    password: passwordInput.value,
+                    branch: document.querySelector('input[name="branch"]:checked')?.value
+                };
 
-  } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ 
-      success: false,
-      error: 'Internal server error',
-      details: error.message 
-    });
-  }
+                // Validation
+                if (!formData.name || !formData.number || !formData.rollno || !formData.password || !formData.branch) {
+                    throw new Error('All fields are required');
+                }
+
+                if (!/^\d{10}$/.test(formData.number)) {
+                    throw new Error('Please enter a valid 10-digit phone number');
+                }
+                
+                if (!/^[a-zA-Z0-9]+$/.test(formData.rollno)) {
+                    throw new Error('Roll number should be alphanumeric');
+                }
+                
+                if (formData.password !== "Kmit123$") {
+                    throw new Error('Invalid Password');
+                }
+
+                // Send data to server
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(formData)
+                });
+
+                if (!response.ok) {
+                    const error = await response.json().catch(() => ({}));
+                    throw new Error(error.message || 'Submission failed');
+                }
+
+                // Success message
+                messageDiv.innerHTML = `
+                    <div class="alert alert-success">
+                        ✅ ${formData.name}, your registration is successful!<br>
+                        Roll Number: ${formData.rollno}
+                    </div>
+                `;
+                
+                form.reset();
+            } catch (error) {
+                messageDiv.innerHTML = `
+                    <div class="alert alert-danger">
+                        ❌ Error: ${error.message}
+                    </div>
+                `;
+                console.error('Submission error:', error);
+            } finally {
+                // Restore button state
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+                
+                // Auto-hide messages after 5 seconds
+                setTimeout(() => {
+                    messageDiv.innerHTML = '';
+                }, 5000);
+            }
+        });
+    }
 });
-
-// Additional API Endpoints
-app.get('/students', async (req, res) => {
-  try {
-    const students = await Student.find({}, '-password -__v');
-    res.json({ success: true, data: students });
-  } catch (error) {
-    res.status(500).json({ success: false, error: 'Error fetching students' });
-  }
-});
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ 
-    success: false,
-    error: 'Internal server error',
-    message: err.message 
-  });
-});
-
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-    console.log(`🔗 MongoDB: ${mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'}`);
-  });
