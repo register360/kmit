@@ -1,11 +1,11 @@
 .login-container
 {
 padding:25px;
+max-width: 350px;
+margin: 20px auto;
 background:hsl(0, 100%, 48%);
 box-shadow:10px 15px 20px hsl(309, 97%, 49%);
 border-radius: 15px;
-margin-right:540px;
-margin-left: 540px;
 justify-content:center;
 transition-duration:0.1s;
 animation: color-cycle 7s infinite;
