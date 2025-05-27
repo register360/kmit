@@ -8,15 +8,19 @@ document.addEventListener('DOMContentLoaded', function() {
     form.parentNode.insertBefore(messageDiv, form.nextSibling);
 
     // 1. Password Visibility Toggle
-    if (eyeIcon && passwordInput) {
+   if (eyeIcon) {
         eyeIcon.addEventListener('click', function() {
-            const isPassword = passwordInput.type === 'password';
-            passwordInput.type = isPassword ? 'text' : 'password';
-            this.classList.toggle('glyphicon-eye-open', !isPassword);
-            this.classList.toggle('glyphicon-eye-close', isPassword);
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                this.classList.remove('glyphicon-eye-open');
+                this.classList.add('glyphicon-eye-close');
+            } else {
+                passwordInput.type = 'password';
+                this.classList.remove('glyphicon-eye-close');
+                this.classList.add('glyphicon-eye-open');
+            }
         });
     }
-
     // 2. Form Submission Handler
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
