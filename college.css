@@ -1,8 +1,8 @@
 .login-container
 {
-padding:25px;
 max-width: 350px;
 margin: 20px auto;
+padding:25px;
 background:hsl(0, 100%, 48%);
 box-shadow:10px 15px 20px hsl(309, 97%, 49%);
 border-radius: 15px;
@@ -46,10 +46,6 @@ input, input::placeholder {
 		box-shadow:10px 15px 20px hsl(240,100%,61%); /* red */
 	}
 }
-h3
-{
-background-color:green,
-}
 body
 {
 background:hsl(0,0%,0%);
@@ -75,27 +71,27 @@ text-align:center;
 .submit-button
 {
 color:black;
-background-color:hsl(150, 100%, 99%);
+background-color:hsl(120, 100%, 70%);
 border-color:black;
 border-radius: 7px;
 transition-duration:0.1s;
 }
 button:hover.submit-button
 {
-background-color:hsl(121, 100%, 50%);
+background-color:hsl(121, 96%, 60%);
 text-decoration:underline;
 }
 .reset-button
 {
 color:black;
-background-color:hsl(0, 0%, 100%);
+background-color:hsl(0, 100%, 50%);
 border-color:black;
 border-radius: 7px;
 transition-duration:0.1s;
 }
 button:hover.reset-button
 {
-background-color:hsl(0, 100%, 61%);
+background-color:hsl(0, 90%, 61%);
 text-decoration:underline;
 }
 form
