@@ -99,54 +99,57 @@ form
 font-size:15px;
 }
 /* Add to college.css */
-.alert {
-  transition: all 0.5s ease;
+/* Messages Styling */
+#form-messages {
+    margin-bottom: 20px;
+    min-height: 60px;
 }
-.alert.fade {
-  opacity: 0;
-}
-.spinner-border {
-  vertical-align: middle;
-  margin-right: 8px;
-}
-@media (max-width: 768px) {
-  .mobile-form {
+
+.message {
     padding: 15px;
-  }
-  .mobile-form input {
-    font-size: 16px !important;
-  }
-}
-/* Alerts styling */
-.alert {
-    margin-top: 20px;
-    transition: all 0.3s ease;
-}
-.alert-dismissible .btn-close {
-    padding: 0.5rem 0.5rem;
-}
-/* Add to college.css */
-#form-message {
-    margin: 15px 0;
-    min-height: 50px;
-}
-
-.alert {
-    padding: 10px 15px;
-    border-radius: 4px;
     margin: 10px 0;
+    border-radius: 4px;
+    position: relative;
 }
 
-.alert-success {
+.message.success {
     background-color: #d4edda;
     color: #155724;
+    border: 1px solid #c3e6cb;
 }
 
-.alert-danger {
+.message.error {
     background-color: #f8d7da;
     color: #721c24;
+    border: 1px solid #f5c6cb;
 }
 
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* Loading Spinner */
+.spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(0,0,0,0.2);
+    border-radius: 50%;
+    border-top-color: #333;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Password Toggle Icon */
 .glyphicon-eye-close::before {
     content: "👁️";
 }
