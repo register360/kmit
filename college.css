@@ -142,10 +142,3 @@ font-size:15px;
 input[type="radio"]:required:invalid {
     outline: 1px solid red;
 }
-/* Password Toggle Icon */
-.glyphicon-eye-close::before {
-    content: "👁️";
-}
-.glyphicon-eye-open::before {
-    content: "👁️";
-}
