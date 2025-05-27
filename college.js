@@ -5,7 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements
-    const form = document.getElementById('Form');
+    const form = document.getElementById('studentForm');
     const passwordInput = document.getElementById('password');
     const eyeIcon = document.querySelector('.glyphicon-eye-open');
     const messageDiv = document.createElement('div');
