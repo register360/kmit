@@ -61,10 +61,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 throw new Error('Roll number must be alphanumeric');
             }
 
-            if (formData.password !== "Kmit123$") {
-                throw new Error('Invalid password');
-            }
-
             // Send to server
             const response = await fetch(form.action, {
                 method: 'POST',
